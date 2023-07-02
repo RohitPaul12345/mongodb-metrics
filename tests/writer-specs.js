@@ -1,27 +1,27 @@
-var should = require('should');
+let should = require('should');
 
 describe('when transforming mongo db metrics', function() {
-	var result, secondResult;
+	let result, secondResult;
 
-	var serverStatus = require('./serverStatus.json');
-	var metricMap = {
+	let serverStatus = require('./serverStatus.json');
+	let metricMap = {
 		connections: { current: "gauge", available: "gauge" },
 		backgroundFlushing: { last_ms: "gauge" },
 		asserts: { user: "counter" }
 	};
 
-	var server = {
+	let server = {
 		cluster: 'muppet',
 		host: 'muppet.prod.app.com'
 	};
 
-	var config = {
+	let config = {
 		graphiteKeyTemplateGauges: 'test.databases.<%= cluster %>.<%= host %>.gauges.<%= metric %>',
 		graphiteKeyTemplateCounters: 'test.databases.<%= cluster %>.<%= host %>.counters.<%= metric %>.count'
 	};
 
-	var writer = require('../lib/writer')(config);
-	var RQ = require('../rq');
+	let writer = require('../lib/writer')(config);
+	let RQ = require('../rq');
 
 	before(function(done) {
 		done();
@@ -61,7 +61,7 @@ describe('when transforming mongo db metrics', function() {
 
 		before(function(done) {
 			server.shortName = "shorty";
-			var func = writer.toGraphiteMetricsArray(server, metricMap);
+			let func = writer.toGraphiteMetricsArray(server, metricMap);
 
 			func(function(success, failure) {
 				result = success;
